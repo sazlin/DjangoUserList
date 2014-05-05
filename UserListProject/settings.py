@@ -21,7 +21,6 @@ SECRET_KEY = '01+s&_4p-1^kbgt#h9k=0b9isw16c*4%b4*lt!vc91e8c4r&z2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
 # Application definition
@@ -33,6 +32,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'UserListApp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,9 +76,7 @@ USE_TZ = True
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES = {
-    "default": dj_database_url.config(default="postgresql://"),
-}
+DATABASES = {}
 DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

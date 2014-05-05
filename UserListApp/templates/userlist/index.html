@@ -1,0 +1,137 @@
+<h1>Current Users</h1>
+{% if user_list %}
+   {% for user in user_list %}
+      <p>
+          <form action="{% url 'edit' %}" method="post">
+              {% csrf_token %} 
+              <input type="text" disabled id="FirstName_{{user.user_id}}" name="firstName" value={{user.first_name}} required>
+              <input type="hidden" value="{{user.first_name}}" name="originalFirstName" id="OriginalFirstName_{{user.user_id}}">
+              <input type="text" disabled id="LastName_{{user.user_id}}" name="lastName" value={{user.last_name}}>
+              <input type="hidden" value="{{user.last_name}}" name="originalLastName" id="OriginalLastName_{{user.user_id}}">
+              <input type="email" disabled id="Email_{{user.user_id}}" name="email" value={{user.email}}>    
+              <input type="hidden" value="{{user.email}}" name="originalEmail" id="OriginalEmail_{{user.user_id}}">
+              <button id="EditButton_{{user.user_id}}" type="button" onclick="toggleEditable({{user.user_id}})" class="fancyButton">Edit</button>
+              <input type="submit" disabled name="submitButton" value="Update" id="Update_{{user.user_id}}" class="fancyButton">
+              <input type="submit" disabled name="submitButton" value="Delete" id="Delete_{{user.user_id}}" class="fancyButton">
+          </form>
+      </p>
+   {% endfor %}
+{% else %}
+    <p>No users.</p>
+{% endif %}
+
+
+<h1>Add New User</h1>
+   <form action="{% url 'add' %}" method="post">
+       {% csrf_token %} 
+       <label for="firstName">First Name:</label>
+       <input type="text" name="firstName" required>
+       <label for="lastName">Last Name:</label>
+       <input type="text" name="lastName">
+       <label for="email">Email:</label>
+       <input type="email" name="email">
+       <input type="submit" value="Add User" class="fancyButton"><br>
+   </form>
+
+
+<script>
+function toggleEditable(userid){
+    var EditButton = document.getElementById("EditButton_"+userid);
+    if(EditButton.textContent == "Edit"){
+        setFieldsDisabled(userid, false);
+        EditButton.textContent = "Cancel";
+    }
+    else{
+        //User canceled editing this record, so reset things
+        var FirstNameField = document.getElementById("FirstName_"+userid);
+        var LastNameField = document.getElementById("LastName_"+userid);
+        var EmailField = document.getElementById("Email_"+userid);
+        FirstNameField.value = document.getElementById("OriginalFirstName_"+userid).value;
+        LastNameField.value = document.getElementById("OriginalLastName_"+userid).value;
+        EmailField.value = document.getElementById("OriginalEmail_"+userid).value;
+        setFieldsDisabled(userid, true);
+        EditButton.textContent = "Edit";
+    }
+}
+
+
+function setFieldsDisabled(userid, value){
+    var FirstNameField = document.getElementById("FirstName_"+userid);
+    var LastNameField = document.getElementById("LastName_"+userid);
+    var EmailField = document.getElementById("Email_"+userid);
+    var updateButton = document.getElementById("Update_"+userid);    
+    var deleteButton = document.getElementById("Delete_"+userid);
+
+
+    FirstNameField.disabled = value;
+    LastNameField.disabled = value;
+    EmailField.disabled = value;
+    updateButton.disabled = value;
+    deleteButton.disabled = value;
+}
+</script>
+<style>
+
+
+h1 {
+    color: rgba(50,0,250,1);
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+
+input[disabled]{
+    color: rgba(50,0,250,1);
+    border-color: white;
+    border-style: solid;
+    background: white;
+}
+
+
+form{
+    font: 14px Tahoma, Geneva, sans-serif;
+    background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+    background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+    width: 800px;
+    font-family: Tahoma, Geneva, sans-serif;
+    color: rgba(50,0,250,1);
+    text-decoration: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding:10px;
+    border: 1px solid #999;
+    border: inset 1px solid #333;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+label{
+    front-size: 14px;
+}
+
+
+p{
+    font: 14px Tahoma, Geneva, sans-serif;
+    
+}
+.fancyButton {
+    color:white;
+    font: Tahoma, Geneva, sans-serif;
+    background-color:rgba(50,0,250,1);
+    border:1px solid #3300dd;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border-bottom:1px solid #9f9f9f;
+    -moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+    -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+
+.fancyButton:hover {
+    background-color:rgba(100,100,250,0.8);
+}
+</style>
