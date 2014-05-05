@@ -16,8 +16,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '01+s&_4p-1^kbgt#h9k=0b9isw16c*4%b4*lt!vc91e8c4r&z2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 
 # Application definition
 
@@ -56,17 +56,8 @@ USE_TZ = True
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES = {
-    'default': {
-        'ENGINE':'django.db.backends.postgresql_psycopg2',
-        'NAME': 'userlistdb',
-        'USER': 'simpleuser',
-        'PASSWORD': 'stdodk',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-#DATABASES['default'] =  dj_database_url.config()
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
