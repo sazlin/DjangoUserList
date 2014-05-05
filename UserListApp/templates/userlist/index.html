@@ -20,41 +20,42 @@
     <p>No users.</p>
 {% endif %}
 
-
 <h1>Add New User</h1>
-   <form action="{% url 'add' %}" method="post">
-       {% csrf_token %} 
-       <label for="firstName">First Name:</label>
-       <input type="text" name="firstName" required>
-       <label for="lastName">Last Name:</label>
-       <input type="text" name="lastName">
-       <label for="email">Email:</label>
-       <input type="email" name="email">
-       <input type="submit" value="Add User" class="fancyButton"><br>
-   </form>
-
+<form action="{% url 'add' %}" method="post">
+   {% csrf_token %} 
+   <label for="firstName">First Name:</label>
+   <input type="text" name="firstName" required>
+   <label for="lastName">Last Name:</label>
+   <input type="text" name="lastName">
+   <label for="email">Email:</label>
+   <input type="email" name="email">
+   <input type="submit" value="Add User" class="fancyButton"><br>
+</form>
 
 <script>
 function toggleEditable(userid){
     var EditButton = document.getElementById("EditButton_"+userid);
     if(EditButton.textContent == "Edit"){
+	    //User wants to edit or delete this record, so enable the fields
         setFieldsDisabled(userid, false);
+		//...and set the Edit button to now be a Cancel button
         EditButton.textContent = "Cancel";
     }
     else{
-        //User canceled editing this record, so reset things
+        //User cancelled editing this record, so reset fields to previous values
         var FirstNameField = document.getElementById("FirstName_"+userid);
         var LastNameField = document.getElementById("LastName_"+userid);
         var EmailField = document.getElementById("Email_"+userid);
         FirstNameField.value = document.getElementById("OriginalFirstName_"+userid).value;
         LastNameField.value = document.getElementById("OriginalLastName_"+userid).value;
+		//...and reset the record UI to read-only mode
         EmailField.value = document.getElementById("OriginalEmail_"+userid).value;
         setFieldsDisabled(userid, true);
         EditButton.textContent = "Edit";
     }
 }
 
-
+//used to bulk set a given record's fields 
 function setFieldsDisabled(userid, value){
     var FirstNameField = document.getElementById("FirstName_"+userid);
     var LastNameField = document.getElementById("LastName_"+userid);
@@ -78,14 +79,12 @@ h1 {
     font-family: Tahoma, Geneva, sans-serif;
 }
 
-
 input[disabled]{
     color: rgba(50,0,250,1);
     border-color: white;
     border-style: solid;
     background: white;
 }
-
 
 form{
     font: 14px Tahoma, Geneva, sans-serif;
@@ -106,16 +105,14 @@ form{
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
 }
 
-
 label{
     front-size: 14px;
 }
 
-
 p{
     font: 14px Tahoma, Geneva, sans-serif;
-    
 }
+
 .fancyButton {
     color:white;
     font: Tahoma, Geneva, sans-serif;
@@ -129,7 +126,6 @@ p{
     -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
 }
-
 
 .fancyButton:hover {
     background-color:rgba(100,100,250,0.8);
